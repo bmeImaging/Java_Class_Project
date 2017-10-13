@@ -1,0 +1,69 @@
+===================
+Class ATM_UI //no inheritance - serves as the user interface for the user to interact with the ATM
+===================
+
+Data:
+ATM atm; //create an atm object to use
+
+boolean loggedIn; //purpose is to check if user needs to log in, and thereby limit their access based on this field
+
+Methods 
+
+void main(); //where command line user interface is
+
+===================
+Class Account //no inheritance - this class models a user's account
+===================
+
+Data:
+int accountNo; //field conains unique account number
+int PIN; // field conains PIN associated with a user
+double balance; // field contains the total cash available in the account
+
+Methods:
+
+Account(int accNo, int pinNo);  //-  Constructor //extra constructor to give user additional options for the account
+Account(int accNo, int pinNo, double balance);  //  Constructor assigns the values passed in to the member variables
+
+int withdraw(int accNo, int pinNo, double amount);  // returns -1, 0 or 1 depending on outcome. // returns -1 if account or pin info doesn't match, returns 0 if not enough money, returns 1 if all criteria ok
+
+int deposit(int accNo, int pinNo, double amount);   // returns -1, 0 or 1 depending on outcome. // returns -1 if account or pin info doesn't match, returns 0 if not enough money, returns 1 if all criteria ok
+
+String showBalance(int accNo, int pinNo); // Either return the balance or an error message //returns balance value based on the account the account number and pin are associated with
+
+int getAccountNo(); //getter method for the account number field
+int getPIN(); //getter for pin field
+
+=================
+Class ATM //no inheritance - models an actual ATM
+=================
+
+Data:
+Arraylist <Account> accounts; //stores list of Account objects (will create several account objects in ATM constructor)
+
+int billQty;  // quantity of bills //number of bills in ATM (500 bills hardcoded in, refreshed daily)
+int billVal;  // value of each bill //stores bill value
+
+int PIN; // ID of user logged in //changes depends on who is logged in - access different accounts //used for the calls to getAccount in withdraw, deposit and showBalance 
+int accountNo; // account ID of user logged in. //changes depends on who is logged in - access different accounts //used for the calls to getAccount in withdraw, deposit and showBalance 
+
+Methods:
+
+ATM()  // Constructor sets up the following fields (accounts, billQty, billVal)
+
+boolean login(int accNo, int pinNo); //will look through array list for matching account, will be used to allow the user to withdraw/deposit if successful, or user will have to try again if entered incorrectly
+String logout();
+
+Account getAccount(int accNo, int pinNo);  // gets account with provided pin and account number //also used by login method to see if account exists with the indicated ids
+
+String withdraw(double amount); //method to withdraw cash, will use getAccount method to access the user's account so correct balance info will be used
+
+String deposit(double amount); //method to deposit cash, will use getAccount method to access the user's account so correct balance info will be used
+
+String showBalance(); //method to display balance, will use getAccount method to access the user's account so correct balance info will be used
+
+String insertDeposit(); // method is used when deposit method is run - waits for user to enter money and then executes - placeholder method for 'future hardware'
+
+String dispenseCash(double amount); // method is used to dispense cash when withdraw method is run - placeholder method for 'future hardware'
+
+
