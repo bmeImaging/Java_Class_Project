@@ -65,5 +65,3 @@ String showBalance(); //method to display balance, will use getAccount method to
 String insertDeposit(); // method is used when deposit method is run - waits for user to enter money and then executes - placeholder method for 'future hardware'
 
 String dispenseCash(double amount); // method is used to dispense cash when withdraw method is run - placeholder method for 'future hardware'
-
-
