@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projectatm;
+
+import java.util.Scanner;
 
 /**
  *
@@ -21,6 +19,12 @@ public class ProjectATM {
         Database.accountDB.put("1357", new Account(1676, 4.00));
         Database.accountDB.put("2468", new Account(8732, 560.00));
         Database.accountDB.put("9991", new Account(6482, 1500.00));
+        
+        //Instantiate ATM
+        ATM thisATM = new ATM();
+        
+        //Instantiate User Interface
+        UserInterface thisInteraction = new UserInterface();
         
     }
     

@@ -63,12 +63,16 @@ public class Transaction {
             a.balance += amount / 100; //will there be issues with passing an int as a double?
             System.out.println("Amount deposited: " + amount/100 +
                     "\nAccount balance: " + a.balance);
+
             //return to main menu after brief pause.
             return a.balance;
         }
         
     }
     
-    public double balanceInquiry(User a) { return a.balance; } 
+    public double balanceInquiry(User a) { 
+        System.out.println("Account balance: " + a.balance);
+        return a.balance; 
+    } 
         
 }
