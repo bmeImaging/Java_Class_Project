@@ -1,6 +1,12 @@
+package projectatm;
+
 import java.util.Scanner;
 
-public class Interface 
+interface UserPrompt {
+    
+}
+
+public class UserInterface 
 {
 	
 	public static void main(String[] args) 
