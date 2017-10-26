@@ -63,13 +63,6 @@ public class Transaction {
         } else if (amount / 20.00 > ATM.cashDispenser) {
             System.out.println("Request exceeds ATM funds. Please enter a smaller amount.");
         }
-        //Pause for user to read withdrawal message
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     public void deposit(String accNo, double amount, boolean envelope) {

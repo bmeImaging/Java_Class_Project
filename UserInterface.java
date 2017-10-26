@@ -33,13 +33,8 @@ public class UserInterface {
                 if (!loggedIn) {
                     System.out.println("Login failed. Please try again.");
                     //Introduce brief pause and return to welcome menu.
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    atm.screenPause();
                 }
-
             }
 
             //Once logged in, prompt for user activity
@@ -51,7 +46,8 @@ public class UserInterface {
                 case 1:  //User chose to check balance
                     Transaction checkBalance = new Transaction();
                     checkBalance.balanceInquiry(accNo);
-                    break;
+                    atm.screenPause();
+                    continue;
 
                 case 2:  //User chose to make a withdrawal
                     Transaction withdrawal = new Transaction();
@@ -61,7 +57,8 @@ public class UserInterface {
                         int wdMenuOption = kb.nextInt();
                         withdrawal.withdraw(accNo, wdMenuOption);
                     }
-                    break;
+                    atm.screenPause();
+                    continue;
 
                 case 3:  //user chose to make a deposit
                     System.out.println("Please enter deposit amount without a decimal.\n"
@@ -69,13 +66,15 @@ public class UserInterface {
                     double depAmount = kb.nextDouble();
                     if (depAmount <= 0) {
                         System.out.println("Transaction cancelled.");
-                        break;
+                        atm.screenPause();
+                        continue;
                     } else {
                         Transaction deposit = new Transaction();
                         System.out.println("Please insert deposit envelope.");
                         boolean envelope = atm.isEnvelope();
                         deposit.deposit(accNo, depAmount, envelope);
-                        break;
+                        atm.screenPause();
+                        continue;
                     }
 
                 case 4:  //user chose to exit system
@@ -88,11 +87,7 @@ public class UserInterface {
             }
 
             //Introduce brief pause and return to start of outer while loop.
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            atm.screenPause();
             atm.resetATM();
         }
     }

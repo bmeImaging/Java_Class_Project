@@ -31,6 +31,15 @@ public class ATM {
         return (true);
     }
     
+    public void screenPause(){
+        try {
+                Thread.sleep(1500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    
     public void resetATM() {
         UserInterface.loggedIn = false;
         UserInterface.pinNo = "PIN not indicated";
