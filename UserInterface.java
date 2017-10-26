@@ -7,73 +7,54 @@ public class UserInterface {
     static boolean loggedIn = false;
     static int choice;
     static int amount;
-    static int accNo;
-    static int pinNo;
+    static String accNo;
+    static String pinNo;
 
     public static void main(String[] args) {
         //Instantiate ATM
         ATM atm = new ATM();
+        UserInterface session = new UserInterface();
 
         //Begin main loop of program by calling user interface 
         Scanner kb = new Scanner(System.in);
         while (true) {
             while (!loggedIn) { //This loop forces the user to log in
                 System.out.println("Welcome!\nPlease enter your 5-digit account number:");
-                int accNo = kb.nextInt();
+                String accNo = kb.next();
                 //Add in quality control for account number entry
                 System.out.print("Please enter your 5-digit PIN:");
-                int pinNo = kb.nextInt();
+                String pinNo = kb.next();
                 //Add in quality control for account number entry
 
-                loggedIn = atm.login(accNo, pinNo);
-                if (!loggedIn) //User credentials were incorrect
-                {
-                    System.out.println("Credentials incorrect, please try again.");
-                } else {
-                    System.out.println("Please choose transaction type.");
+                loggedIn = Account.login(accNo, pinNo);
+                if (!loggedIn) { //Login failed
+                    System.out.println("Login failed. Please try again.");
                 }
-            
-                } else //User supplies incorrect input
-                {
-                    System.out.println("Invalid input, please try again.");
-                }
-        }
-
-        System.out.println("What would you like to do?\n" + "1 - Make a withdrawl\n"
-                + "2 - Make a deposit\n" + "3 - Check your balance\n" + "4 - Log out");
-
-        choice = kb.nextInt();
-
-        if (choice == 1) //User chose to withdraw
-        {
-            System.out.println("How much would you like to withdraw?\n\n" + "Withdrawls must be multiples of twenty.");
-            amount = kb.nextInt();
-            String response = atm.withdraw(amount);
-            System.out.println(response);
-            System.out.println(atm.dispenseCash(amount)); //Once the withdraw method is implemented in ATM class this line will be removed
-        } else if (choice == 2) //User chose to deposit
-        {
-            System.out.println("How much would you like to deposit?\n\n" + "Deposits are to be given in cents.");
-            amount = kb.nextInt();
-            System.out.println(atm.insertDeposit()); //Once the deposit method is implemented in ATM class this line will be removed
-            String response = atm.deposit(amount);
-            System.out.println(response);
-        } else if (choice == 3) //User chose to check balance
-        {
-            String response = atm.showBalance();
-            System.out.println(response);
-        } else if (choice == 4) //User chose to log out
-        {
-            System.out.println("Logging out...");
-            loggedIn = (!atm.logout());
-            if (loggedIn) //Checks to make sure the log out was successful
-            {
-                System.out.println("Unable to log out. Terminating program...");
-                kb.close();
-                System.exit(1);
             }
-        } else //User supplies incorrect input
-        {
-            System.out.println("Invalid input, please try again.");
-        }
-    }
+
+            System.out.println("Select transaction type:\n" + "1 - Check balance\n"
+                    + "2 - Make a withdrawal\n" + "3 - Make a deposit\n" + "4 - Exit system");
+
+            choice = kb.nextInt();
+
+            if (choice == 1) {  //User chose to check balance
+                Transaction checkBalance = new Transaction();
+                checkBalance.balanceInquiry(accNo);
+            } else if (choice == 2) { //User chose to make a withdrawal
+                Transaction withdrawal = new Transaction();
+                while (withdrawal.withdrawReturn == false) {
+                    System.out.println("Choose withdrawal amount:\n1 - $20.00\n2 - $40.00\n"
+                            + "3 - $60.00\n4 - $100.00\n5 - $200.00\n6 - Cancel transaction");
+                    int wdMenuOption = kb.nextInt();
+                    withdrawal.withdraw(accNo, wdMenuOption);
+                }
+            } else if (choice == 3) { //use chose to make a deposit
+                System.out.println("How much would you like to deposit?\n\n"
+                        + "Deposits are to be given in cents.");
+                double amount = kb.nextDouble();
+                Transaction deposit = new Transaction();
+                deposit.deposit(accNo, amount);
+            } else if (choice == 4) { //user chose "exit system"
+                kb.close();
+                System.exit(0);
+            }

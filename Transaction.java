@@ -14,8 +14,10 @@ public class Transaction {
     //methods called from the UserInterface class.
 
     double amount;
+    boolean withdrawReturn = false;
+    
 
-    public double withdraw(User a, int wdMenuOption) { 
+    public void withdraw(String accNo, int wdMenuOption) { 
         //additional prompt for wdMenuOption chosen thru user interface or here?
         switch (wdMenuOption) {
             case 1: amount = 20.00;
@@ -30,49 +32,54 @@ public class Transaction {
                     break;
             case 6: System.out.println("Transaction cancelled.");
                     //return to main menu
-                    return a.balance;
+//                    return Database.accountDB.get(accNo).balance;
         }
         
-        if (amount <= a.balance && ATM.cashDispenser >= amount/20.00) {
-            a.balance -= amount;
-            ATM.cashDispenser -= amount/20.00; 
+        
+        if (amount <= Database.accountDB.get(accNo).balance && 
+                ATM.cashDispenser >= amount/20.00) {
+            Database.accountDB.get(accNo).balance -= amount;
+            ATM.cashDispenser -= amount/20.00;
+            withdrawReturn = true;
             System.out.println("Cash dispensed. Please take money.\n"
-                    + "Account balance: " + a.balance);
-        } else if (amount > a.balance) {
-            System.out.println("Insufficient funds in account to process request.");
-            //return to interface prompt somehow.
+                    + "Account balance: " + Database.accountDB.get(accNo).balance);
+        } else if (amount > Database.accountDB.get(accNo).balance) {
+            System.out.println("Insufficient funds in account to process request.\n"
+            + "Please enter a smaller amount.");
+            withdrawReturn = false;
         } else if (amount/20.00 > ATM.cashDispenser) {
-            System.out.println("Request exceeds ATM funds. Please try a smaller amount.");
-            //return to step1 of interface prompt somehow.
+            System.out.println("Request exceeds ATM funds. Please enter a smaller amount.");
+            withdrawReturn = false;
         }
         //return to main menu after brief pause.
-        return a.balance;
+        
+        //    UserInterface.loggedIn = false;
     }
+        
     
-    public double deposit(User a, double amount) {
+    public void deposit(String accNo, double amount) {
         //amount in the case is input passed from user interface and is formatted
         //as 2745 for $27.45
         
         if (amount <= 0) {
             System.out.println("Transaction cancelled.");
             //return to main menu somehow. Don't know what return is needed.
-            return a.balance;
+            return Database.accountDB.get(accNo).balance;
         } else {
             System.out.println("Please insert deposit envelope.");
             ATM.depositSlot = true; //extra credit involves this.     
-            a.balance += amount / 100; //will there be issues with passing an int as a double?
+            Database.accountDB.get(accNo).balance += amount / 100; 
             System.out.println("Amount deposited: " + amount/100 +
-                    "\nAccount balance: " + a.balance);
+                    "\nAccount balance: " + Database.accountDB.get(accNo).balance);
 
             //return to main menu after brief pause.
-            return a.balance;
+//            return a.balance;
         }
         
     }
     
-    public double balanceInquiry(User a) { 
-        System.out.println("Account balance: " + a.balance);
-        return a.balance; 
+    public void balanceInquiry(String accNo) { 
+        System.out.println("Account balance: " + Database.accountDB.get(accNo).balance);
     } 
         
 }
