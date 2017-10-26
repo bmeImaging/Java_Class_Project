@@ -1,6 +1,8 @@
 package projectatm;
 
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserInterface {
 
@@ -17,20 +19,27 @@ public class UserInterface {
 
         //Begin main loop of program 
         while (true) {
+
             while (!loggedIn) {
                 //This loop forces the user to log in
                 System.out.println("Welcome!\nPlease enter your 5-digit account number:");
-                String accNo = kb.next();
+                accNo = kb.next();
                 //Add in quality control for account number entry
                 System.out.print("Please enter your 5-digit PIN:");
-                String pinNo = kb.next();
+                pinNo = kb.next();
                 //Add in quality control for account number entry
                 //PIN check and log in
                 loggedIn = Account.login(accNo, pinNo);
                 if (!loggedIn) {
                     System.out.println("Login failed. Please try again.");
-                    //Program returns to start of inner while loop.
+                    //Introduce brief pause and return to welcome menu.
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+
             }
 
             //Once logged in, prompt for user activity
@@ -43,6 +52,7 @@ public class UserInterface {
                     Transaction checkBalance = new Transaction();
                     checkBalance.balanceInquiry(accNo);
                     break;
+
                 case 2:  //User chose to make a withdrawal
                     Transaction withdrawal = new Transaction();
                     while (withdrawal.withdrawReturn == false) {
@@ -52,23 +62,37 @@ public class UserInterface {
                         withdrawal.withdraw(accNo, wdMenuOption);
                     }
                     break;
+
                 case 3:  //user chose to make a deposit
-                    System.out.println("How much would you like to deposit?\n"
-                            + "Deposits should be entered without a decimal. "
+                    System.out.println("Please enter deposit amount without a decimal.\n"
                             + "For example, $57.60 is entered 5760.");
                     double depAmount = kb.nextDouble();
-                    Transaction deposit = new Transaction();
-                    deposit.deposit(accNo, depAmount);
-                    break;
+                    if (depAmount <= 0) {
+                        System.out.println("Transaction cancelled.");
+                        break;
+                    } else {
+                        Transaction deposit = new Transaction();
+                        System.out.println("Please insert deposit envelope.");
+                        boolean envelope = atm.isEnvelope();
+                        deposit.deposit(accNo, depAmount, envelope);
+                        break;
+                    }
+
                 case 4:  //user chose to exit system
-                    System.out.println("Transaction cancelled.");
+                    System.out.println("Transaction cancelled.\nThank you.");
                     break;
-                default:
-                    break;
+
+                default: //user entered something other than 1-4.
+                    System.out.println("Invalid entry.");
+                    continue;
             }
 
-//                kb.close();  //Is this needed?
             //Introduce brief pause and return to start of outer while loop.
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
             atm.resetATM();
         }
     }
