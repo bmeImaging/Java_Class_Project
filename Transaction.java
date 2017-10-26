@@ -51,29 +51,21 @@ public class Transaction {
             System.out.println("Request exceeds ATM funds. Please enter a smaller amount.");
             withdrawReturn = false;
         }
-        //return to main menu after brief pause.
-        
-        //    UserInterface.loggedIn = false;
     }
         
     
     public void deposit(String accNo, double amount) {
         //amount in the case is input passed from user interface and is formatted
         //as 2745 for $27.45
-        
         if (amount <= 0) {
             System.out.println("Transaction cancelled.");
             //return to main menu somehow. Don't know what return is needed.
-            return Database.accountDB.get(accNo).balance;
         } else {
             System.out.println("Please insert deposit envelope.");
             ATM.depositSlot = true; //extra credit involves this.     
             Database.accountDB.get(accNo).balance += amount / 100; 
             System.out.println("Amount deposited: " + amount/100 +
                     "\nAccount balance: " + Database.accountDB.get(accNo).balance);
-
-            //return to main menu after brief pause.
-//            return a.balance;
         }
         
     }

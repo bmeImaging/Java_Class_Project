@@ -18,7 +18,7 @@ public class Account {
     public static boolean login(String accNo, String pinNo) {
         //verifies account exists
         if (Database.accountDB.containsKey(accNo) == true) {
-            if (Database.accountDB.get(accNo).PIN == pinNo) {
+            if (Database.accountDB.get(accNo).PIN.equals(pinNo)) {
                 return true;
             } else {
                 System.out.println("PIN entry incorrect.");

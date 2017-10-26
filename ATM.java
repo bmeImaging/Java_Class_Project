@@ -17,7 +17,11 @@ public class ATM {
     }
     
     public void resetATM() {
-        cashDispenser = 500;
+        UserInterface.loggedIn = false;
+        UserInterface.pinNo = "PIN not indicated";
+        UserInterface.accNo = "Account not indicated";
         depositSlot = false;
+        UserInterface.amount = 0;
+        UserInterface.choice = 0;
     }
 }
