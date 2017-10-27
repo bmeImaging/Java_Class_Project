@@ -40,7 +40,6 @@ public class Transaction {
                 break;
             case 6:
                 amount = 0.00;
-
                 break;
             default:
                 amount = 0.00;

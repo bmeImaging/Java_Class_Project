@@ -19,6 +19,7 @@ public class ATM {
         depositSlot = false; 
     }
     
+    
     public boolean isEnvelope() {
         //Method checks whether envelope is deposited. 
         //Always returns true after brief pause, extra credit not attempted.
