@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  *
- * @author laurarogers
+ * @author laurarogers, acoats
  */
 public class Database {
 
@@ -21,5 +21,6 @@ public class Database {
         accountDB.put("13575", new Account("16768", 4.35));
         accountDB.put("24686", new Account("87324", 560.04));
         accountDB.put("99918", new Account("64827", 1500.96));
+        accountDB.put("00000", new Account("00000", 0.00));
     }
 }
